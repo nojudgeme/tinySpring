@@ -1,24 +1,43 @@
 package org.charlice.test.core;
 
 import org.charlice.beans.BeanDefinition;
+import org.charlice.beans.core.io.ClassPathResource;
 import org.charlice.beans.exception.BeansException;
 import org.charlice.beans.factory.BeanFactory;
+import org.charlice.beans.factory.support.BeanDefinitionRegistry;
 import org.charlice.beans.factory.support.DefaultBeanFactory;
+import org.charlice.beans.factory.support.GenericBeanDefinition;
+import org.charlice.beans.xml.XMLBeanDefinitionReader;
 import org.charlice.test.service.PetStoreService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class BeanFactoryTest {
 
+    private DefaultBeanFactory factory = null;
+
+    private XMLBeanDefinitionReader xmlBeanDefinitionReader = null;
+
+    @Before
+    public void setUp(){
+        factory = new DefaultBeanFactory();
+        xmlBeanDefinitionReader = new XMLBeanDefinitionReader(factory);
+        xmlBeanDefinitionReader.loadBeanDefinition(new ClassPathResource("petStore.xml"));
+    }
+
     @Test
     public void getBeanTest(){
-        BeanFactory factory = new DefaultBeanFactory("petStore.xml");
         BeanDefinition beanDefinition = factory.getBeanDefinition("petStore");
+
+        assertTrue(beanDefinition.isSingleton());
+
+        assertFalse(beanDefinition.isProtoype());
+
+        assertEquals(GenericBeanDefinition.SCOPE_SINGLETON,beanDefinition.getScope());
+
         assertEquals("org.charlice.test.service.PetStoreService",beanDefinition.getBeanClassName());
 
         PetStoreService petStoreService = (PetStoreService)factory.getBean("petStore");
@@ -27,7 +46,6 @@ public class BeanFactoryTest {
 
     @Test
     public void invalidBeanTest(){
-        BeanFactory factory = new DefaultBeanFactory("petStore.xml");
         try {
             PetStoreService petStoreService = (PetStoreService)factory.getBean("petStore2");
         }catch (BeansException e){
@@ -40,7 +58,9 @@ public class BeanFactoryTest {
     @Test
     public void invalidBeanFactoryTest(){
         try {
-            BeanFactory factory = new DefaultBeanFactory("petStore2.xml");
+            BeanDefinitionRegistry factory = new DefaultBeanFactory();
+            XMLBeanDefinitionReader xmlBeanDefinitionReader = new XMLBeanDefinitionReader(factory);
+            xmlBeanDefinitionReader.loadBeanDefinition(new ClassPathResource("petStore2.xml"));
         }catch (BeansException e){
             e.printStackTrace();
             return;
