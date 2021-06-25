@@ -3,7 +3,6 @@ package org.charlice.test.core;
 import org.charlice.beans.BeanDefinition;
 import org.charlice.beans.core.io.ClassPathResource;
 import org.charlice.beans.exception.BeansException;
-import org.charlice.beans.factory.BeanFactory;
 import org.charlice.beans.factory.support.BeanDefinitionRegistry;
 import org.charlice.beans.factory.support.DefaultBeanFactory;
 import org.charlice.beans.factory.support.GenericBeanDefinition;
@@ -34,7 +33,7 @@ public class BeanFactoryTest {
 
         assertTrue(beanDefinition.isSingleton());
 
-        assertFalse(beanDefinition.isProtoype());
+        assertFalse(beanDefinition.isPrototype());
 
         assertEquals(GenericBeanDefinition.SCOPE_SINGLETON,beanDefinition.getScope());
 

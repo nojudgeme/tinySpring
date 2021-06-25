@@ -16,10 +16,6 @@
 
 package org.charlice.utils;
 
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ReflectionUtils;
-
 import java.beans.Introspector;
 import java.lang.reflect.*;
 import java.util.*;
@@ -33,8 +29,6 @@ import java.util.*;
  * @author Rob Harrop
  * @author Sam Brannen
  * @since 1.1
- * @see TypeUtils
- * @see ReflectionUtils
  */
 public abstract class ClassUtils {
 
@@ -744,7 +738,6 @@ public abstract class ClassUtils {
 	 * Check whether the given object is a CGLIB proxy.
 	 * @param object the object to check
 	 * @see #isCglibProxyClass(Class)
-	 * @see org.springframework.aop.support.AopUtils#isCglibProxy(Object)
 	 */
 	public static boolean isCglibProxy(Object object) {
 		return isCglibProxyClass(object.getClass());

@@ -38,7 +38,7 @@ public class GenericBeanDefinition implements BeanDefinition {
         this.isSingleton = isSingleton;
     }
 
-    public boolean isProtoype() {
+    public boolean isPrototype() {
         return isProtoype;
     }
 

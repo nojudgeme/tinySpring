@@ -8,5 +8,5 @@ public interface BeanDefinition {
 
     boolean isSingleton();
 
-    boolean isProtoype();
+    boolean isPrototype();
 }

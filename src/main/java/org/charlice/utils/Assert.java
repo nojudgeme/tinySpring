@@ -15,10 +15,6 @@ package org.charlice.utils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-
 import java.util.Collection;
 import java.util.Map;
 
