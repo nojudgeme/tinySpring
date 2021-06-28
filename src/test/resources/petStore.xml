@@ -3,13 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="petStore" class="org.charlice.test.service.PetStoreService" scope="singleton">
+    <bean id="petStore" class="org.tinySpring.test.service.PetStoreService" scope="singleton">
         <property name="accountDao" ref="accountDao" />
         <property name="itemDao" ref="itemDao" />
     </bean>
 
-    <bean id="accountDao" class="org.charlice.test.dao.AccountDao">
+    <bean id="accountDao" class="org.tinySpring.test.dao.AccountDao">
     </bean>
-    <bean id="itemDao" class="org.charlice.test.dao.ItemDao">
+    <bean id="itemDao" class="org.tinySpring.test.dao.ItemDao">
     </bean>
 </beans>
