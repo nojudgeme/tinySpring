@@ -1,14 +1,12 @@
 package org.charlice.beans.factory.support;
 
 import org.charlice.beans.BeanDefinition;
+import org.charlice.beans.PropertyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GenericBeanDefinition implements BeanDefinition {
-
-    public static final String SCOPE_PROTOTYPE = "prototype";
-
-    public static final String SCOPE_SINGLETON = "singleton";
-
-    public static final String SCOPE_DEFAULT = "";
 
     private String beanId;
 
@@ -18,7 +16,9 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     private boolean isSingleton;
 
-    private boolean isProtoype;
+    private boolean isPrototype;
+
+    private List<PropertyValue> propertyValues = new ArrayList<>();
 
     public String getScope() {
         return scope;
@@ -26,7 +26,7 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     public void setScope(String scope) {
         this.scope = scope;
-        this.isProtoype = SCOPE_PROTOTYPE.equals(scope);
+        this.isPrototype = SCOPE_PROTOTYPE.equals(scope);
         this.isSingleton = SCOPE_DEFAULT.equals(scope) || SCOPE_SINGLETON.equals(scope);
     }
 
@@ -39,11 +39,16 @@ public class GenericBeanDefinition implements BeanDefinition {
     }
 
     public boolean isPrototype() {
-        return isProtoype;
+        return isPrototype;
     }
 
-    public void setIsProtoype(boolean isProtoype) {
-        this.isProtoype = isProtoype;
+    @Override
+    public List<PropertyValue> getPropertyValues() {
+        return this.propertyValues;
+    }
+
+    public void setIsPrototype(boolean isProtoype) {
+        this.isPrototype = isProtoype;
     }
 
     public GenericBeanDefinition(String beanId, String beanClassName) {

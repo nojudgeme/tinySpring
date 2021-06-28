@@ -4,6 +4,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="petStore" class="org.charlice.test.service.PetStoreService" scope="singleton">
+        <property name="accountDao" ref="accountDao" />
+        <property name="itemDao" ref="itemDao" />
     </bean>
 
+    <bean id="accountDao" class="org.charlice.test.dao.AccountDao">
+    </bean>
+    <bean id="itemDao" class="org.charlice.test.dao.ItemDao">
+    </bean>
 </beans>
