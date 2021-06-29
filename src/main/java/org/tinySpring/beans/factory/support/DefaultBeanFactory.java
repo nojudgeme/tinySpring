@@ -1,5 +1,6 @@
 package org.tinySpring.beans.factory.support;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.tinySpring.beans.BeanDefinition;
 import org.tinySpring.beans.PropertyValue;
 import org.tinySpring.beans.SimpleTypeConverter;
@@ -48,7 +49,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
     //两个步骤:实例化bean，注入属性
     public Object createBean(BeanDefinition beanDefinition){
         Object bean = instantiateBean(beanDefinition);
-        populateBean(beanDefinition,bean);
+        populateBeanUseCommonBeanUtils(beanDefinition,bean);
         return bean;
     }
 
@@ -85,6 +86,25 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
                         break;
                     }
                 }
+            }
+        }catch (Exception e){
+            throw new BeanCreationException("Failed to obtain BeanInfo for class {"+beanDefinition.getBeanClassName()+"}");
+        }
+    }
+
+    protected void populateBeanUseCommonBeanUtils(BeanDefinition beanDefinition, Object bean) {
+        List<PropertyValue> propertyValues = beanDefinition.getPropertyValues();
+        if(CollectionUtils.isEmpty(propertyValues)){
+            return;
+        }
+        BeanDefinitionValueResolver valueResolver = new BeanDefinitionValueResolver(this);
+        //直接使用apache common beanutils完成属性注入
+        try{
+            for (PropertyValue propertyValue : propertyValues) {
+                String propertyName = propertyValue.getName();//xml中property的指定name->beanId
+                Object originalValue = propertyValue.getValue();//两种类型 ref/String
+                Object resolveValue = valueResolver.resolveValueIfNecessary(originalValue);//具体的类型ref/String的value
+                BeanUtils.setProperty(bean,propertyName,resolveValue);
             }
         }catch (Exception e){
             throw new BeanCreationException("Failed to obtain BeanInfo for class {"+beanDefinition.getBeanClassName()+"}");
