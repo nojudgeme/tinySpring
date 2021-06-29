@@ -32,7 +32,7 @@ public class ResourceTest {
 
     @Test
     public void fileSystemSourceTest(){
-        filePath = "D:\\tinySpring\\src\\test\\resources\\petStore.xml";
+        filePath = "src/test/resources/petStore.xml";
         FileSystemResource fileSystemResource = new FileSystemResource(filePath);
         InputStream inputStream = null;
         try {

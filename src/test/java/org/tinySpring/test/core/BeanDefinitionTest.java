@@ -21,7 +21,7 @@ public class BeanDefinitionTest {
 
         BeanDefinition beanDefinition = factory.getBeanDefinition("petStore");
         List<PropertyValue> propertyValues = beanDefinition.getPropertyValues();
-        Assert.assertTrue(propertyValues.size() == 2);
+        Assert.assertTrue(propertyValues.size() == 4);
         {
             PropertyValue propertyValue = this.getPropertyValue("accountDao", propertyValues);
             Assert.assertNotNull(propertyValue);

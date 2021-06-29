@@ -1,6 +1,5 @@
 package org.tinySpring.test.core;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.tinySpring.beans.BeanDefinition;
@@ -21,49 +20,44 @@ public class BeanFactoryTest {
     private XMLBeanDefinitionReader xmlBeanDefinitionReader = null;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         factory = new DefaultBeanFactory();
         xmlBeanDefinitionReader = new XMLBeanDefinitionReader(factory);
         xmlBeanDefinitionReader.loadBeanDefinition(new ClassPathResource("petStore.xml"));
     }
 
     @Test
-    public void getBeanTest(){
+    public void getBeanTest() {
         BeanDefinition beanDefinition = factory.getBeanDefinition("petStore");
 
         assertTrue(beanDefinition.isSingleton());
 
         assertFalse(beanDefinition.isPrototype());
 
-        assertEquals(GenericBeanDefinition.SCOPE_SINGLETON,beanDefinition.getScope());
+        assertEquals(GenericBeanDefinition.SCOPE_SINGLETON, beanDefinition.getScope());
 
-        assertEquals("org.tinySpring.test.service.PetStoreService",beanDefinition.getBeanClassName());
+        assertEquals("org.tinySpring.test.service.PetStoreService", beanDefinition.getBeanClassName());
 
-        PetStoreService petStoreService = (PetStoreService)factory.getBean("petStore");
+        PetStoreService petStoreService = (PetStoreService) factory.getBean("petStore");
         assertNotNull(petStoreService);
     }
 
     @Test
-    public void invalidBeanTest(){
-        try {
-            PetStoreService petStoreService = (PetStoreService)factory.getBean("petStore2");
-        }catch (BeansException e){
-            e.printStackTrace();
-            return;
-        }
-        Assert.fail();
+    public void invalidBeanTest() {
+        PetStoreService petStoreService = (PetStoreService) factory.getBean("petStore2");
+        assertNull(petStoreService);
     }
 
     @Test
-    public void invalidBeanFactoryTest(){
+    public void invalidBeanFactoryTest() {
         try {
             BeanDefinitionRegistry factory = new DefaultBeanFactory();
             XMLBeanDefinitionReader xmlBeanDefinitionReader = new XMLBeanDefinitionReader(factory);
             xmlBeanDefinitionReader.loadBeanDefinition(new ClassPathResource("petStore2.xml"));
-        }catch (BeansException e){
+        } catch (BeansException e) {
             e.printStackTrace();
             return;
         }
-        Assert.fail();
+        fail();
     }
 }

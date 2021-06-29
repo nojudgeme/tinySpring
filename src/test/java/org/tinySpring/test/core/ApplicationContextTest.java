@@ -13,12 +13,15 @@ public class ApplicationContextTest {
     public void classPathXMLApplicationContextTest(){
         ApplicationContext applicationContext = new ClassPathXMLReaderContext("petStore.xml");
         PetStoreService petStoreService = (PetStoreService)applicationContext.getBean("petStore");
-        Assert.assertNotNull(petStoreService);
+        Assert.assertNotNull(petStoreService.getItemDao());
+        Assert.assertNotNull(petStoreService.getAccountDao());
+        Assert.assertEquals("charles",petStoreService.getOwner());
+        Assert.assertEquals(1,petStoreService.getVersion());
     }
 
     @Test
     public void fileSystemApplicationContextTest(){
-        ApplicationContext applicationContext = new FileSystemXMLApplicationContext("D:\\tinySpring\\src\\test\\resources\\petStore.xml");
+        ApplicationContext applicationContext = new FileSystemXMLApplicationContext("src/test/resources/petStore.xml");
         PetStoreService petStoreService = (PetStoreService)applicationContext.getBean("petStore");
         Assert.assertNotNull(petStoreService);
     }
