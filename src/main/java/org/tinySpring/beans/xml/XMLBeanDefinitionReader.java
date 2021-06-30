@@ -6,8 +6,10 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.tinySpring.beans.BeanDefinition;
+import org.tinySpring.beans.ConstructorArgument;
 import org.tinySpring.beans.PropertyValue;
 import org.tinySpring.beans.core.io.Resource;
+import org.tinySpring.beans.exception.BeanCreationException;
 import org.tinySpring.beans.exception.BeanDefinitionException;
 import org.tinySpring.beans.factory.config.RuntimeBeanReference;
 import org.tinySpring.beans.factory.config.TypedStringValue;
@@ -34,6 +36,12 @@ public class XMLBeanDefinitionReader {
     private static final String VALUE_ATTRIBUTE = "value";
 
     private static final String NAME_ATTRIBUTE = "name";
+
+    private static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
+
+    private static final String TYPE_ATTRIBUTE = "type";
+
+    private static final String INDEX_ATTRIBUTE = "index";
 
     private static final Log LOGGER = LogFactory.getLog(XMLBeanDefinitionReader.class);
 
@@ -65,6 +73,7 @@ public class XMLBeanDefinitionReader {
                 if(StringUtils.hasText(scope)){
                     beanDefinition.setScope(scope);
                 }
+                parseConstructorArgElements(element,beanDefinition);
                 parsePropertyElement(element,beanDefinition);
                 this.register.register(beanId,beanDefinition);
             }
@@ -82,7 +91,39 @@ public class XMLBeanDefinitionReader {
 
     }
 
-    //解析bean属性 ,注入beanDefinition
+    //解析bean constructor-arg属性 ,注入beanDefinition
+    public void parseConstructorArgElements(Element element, BeanDefinition beanDefinition) {
+        Iterator iterator = element.elementIterator(CONSTRUCTOR_ARG_ELEMENT);
+        while(iterator.hasNext()){
+            Element ele = (Element) iterator.next();
+            parseConstructorArgElement(ele,beanDefinition);
+        }
+    }
+
+    //解析每个constructor-arg上的标签 对应ValueHolder的注入属性并放入holder集合中
+    public void parseConstructorArgElement(Element element, BeanDefinition beanDefinition) {
+        String nameAttr = element.attributeValue(NAME_ATTRIBUTE);
+        String typeAttr = element.attributeValue(TYPE_ATTRIBUTE);
+        String indexAttr = element.attributeValue(INDEX_ATTRIBUTE);
+        Object value = parsePropertyValue(element, beanDefinition, null);
+        ConstructorArgument.ValueHolder valueHolder = new ConstructorArgument.ValueHolder(value);
+        if(StringUtils.hasLength(nameAttr)){
+            valueHolder.setName(nameAttr);
+        }
+        if(StringUtils.hasLength(typeAttr)){
+            valueHolder.setType(typeAttr);
+        }
+        if(StringUtils.hasLength(indexAttr)){
+            try{
+                valueHolder.setIndex(Integer.parseInt(indexAttr));
+            }catch (NumberFormatException e){
+                throw new BeanCreationException("constructor-arg can't set index attr except int type");
+            }
+        }
+        beanDefinition.getConstructorArgument().addArgumentValues(valueHolder);
+    }
+
+    //解析bean property属性 ,注入beanDefinition
     public void parsePropertyElement(Element beanElement, BeanDefinition beanDefinition) {
         Iterator iterator = beanElement.elementIterator(PROPERTY_ELEMENT);
         while(iterator.hasNext()){

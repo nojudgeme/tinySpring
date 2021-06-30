@@ -20,6 +20,15 @@ public class ApplicationContextTest {
     }
 
     @Test
+    public void classPathXMLApplicationContextTestV2(){
+        ApplicationContext applicationContext = new ClassPathXMLReaderContext("petStore-v2.xml");
+        PetStoreService petStoreService = (PetStoreService)applicationContext.getBean("petStore");
+        Assert.assertNotNull(petStoreService.getItemDao());
+        Assert.assertNotNull(petStoreService.getAccountDao());
+        Assert.assertEquals(1,petStoreService.getVersion());
+    }
+
+    @Test
     public void fileSystemApplicationContextTest(){
         ApplicationContext applicationContext = new FileSystemXMLApplicationContext("src/test/resources/petStore.xml");
         PetStoreService petStoreService = (PetStoreService)applicationContext.getBean("petStore");

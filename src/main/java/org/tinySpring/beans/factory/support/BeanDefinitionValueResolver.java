@@ -1,13 +1,14 @@
 package org.tinySpring.beans.factory.support;
 
+import org.tinySpring.beans.factory.BeanFactory;
 import org.tinySpring.beans.factory.config.RuntimeBeanReference;
 import org.tinySpring.beans.factory.config.TypedStringValue;
 
 public class BeanDefinitionValueResolver {
 
-    private final DefaultBeanFactory beanFactory;
+    private final BeanFactory beanFactory;
 
-    public BeanDefinitionValueResolver(DefaultBeanFactory factory) {
+    public BeanDefinitionValueResolver(BeanFactory factory) {
         this.beanFactory = factory;
     }
 

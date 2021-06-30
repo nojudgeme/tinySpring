@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="petStore" class="org.tinySpring.test.service.PetStoreService" scope="singleton">
+        <constructor-arg name="accountDao" ref="accountDao" />
+        <constructor-arg name="itemDao" ref="itemDao" />
+        <constructor-arg name="version" value="1" />
+        <constructor-arg name="years" index="0" type="int" value="2021" />
+        <constructor-arg name="name" index="1" type="java.lang.String" value="来福专卖店" />
+        <constructor-arg name="owner" index="2" type="java.lang.String" value="charles" />
+    </bean>
+
+    <bean id="accountDao" class="org.tinySpring.test.dao.AccountDao">
+    </bean>
+    <bean id="itemDao" class="org.tinySpring.test.dao.ItemDao">
+    </bean>
+</beans>

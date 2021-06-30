@@ -7,12 +7,13 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ApplicationContextTest.class,
         BeanDefinitionTest.class,
-        BeanDefinitionValueResolverTest.class,
         BeanFactoryTest.class,
+        ResourceTest.class,
         CustomBooleanEditorTest.class,
         CustomNumberEditorTest.class,
-        ResourceTest.class,
-        TypeConverterTest.class
+        TypeConverterTest.class,
+        BeanDefinitionValueResolverTest.class,
+        ConstructorResolverTest.class
 })
 public class AllTest {
 }
