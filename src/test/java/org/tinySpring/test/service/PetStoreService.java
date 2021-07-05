@@ -1,15 +1,25 @@
 package org.tinySpring.test.service;
 
+import org.tinySpring.beans.factory.annotation.Autowired;
+import org.tinySpring.stereotype.Component;
 import org.tinySpring.test.dao.AccountDao;
 import org.tinySpring.test.dao.ItemDao;
 
+@Component("petStore")
 public class PetStoreService {
 
+    @Autowired
     private AccountDao accountDao;
+
+    @Autowired
     private ItemDao itemDao;
+
     private int version;
+
     private int years;
+
     private String name;
+
     private String owner;
 
     public PetStoreService() {

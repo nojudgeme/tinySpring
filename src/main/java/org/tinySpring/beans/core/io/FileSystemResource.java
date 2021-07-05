@@ -18,6 +18,12 @@ public class FileSystemResource implements Resource {
         this.file = new File(filePath);
     }
 
+    public FileSystemResource(File file) {
+        Assert.notNull(file,"file can't be empty");
+        this.filePath = file.getPath();
+        this.file = file;
+    }
+
     public InputStream getInputStream() throws IOException {
         return new FileInputStream(file);
     }
